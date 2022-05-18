@@ -1,33 +1,7 @@
 using Microsoft.Data.Sqlite;
+using LabManager.Database;
 
-var connection = new SqliteConnection("Data Source=database.db");
-connection.Open();
-var command = connection.CreateCommand();
-command.CommandText = @"
-CREATE TABLE IF NOT EXISTS Computers(
-    id int not null primary key,
-    ram varchar(100) not null,
-    processor varchar(100) not null
-);
-";
-command.ExecuteNonQuery();
-connection.Close();
-
-
-
-connection = new SqliteConnection("Data Source=database.db");
-connection.Open();
-command = connection.CreateCommand();
-command.CommandText = @"
-CREATE TABLE IF NOT EXISTS Lab(
-    id int not null primary key,
-    number int not null,
-    name varchar(100) not null,
-    block varchar(50) not null
-);
-";
-command.ExecuteNonQuery();
-connection.Close();
+var databaseSetup = new DatabaseSetup();
 
 // Routing
 var modelName = args[0];
@@ -38,9 +12,9 @@ if (modelName == "Computer")
 {
     if (modelAction == "List")
     {
-            connection = new SqliteConnection("Data Source=database.db");
+            var connection = new SqliteConnection("Data Source=database.db");
             connection.Open();
-            command = connection.CreateCommand();
+            var command = connection.CreateCommand();
             command.CommandText = "SELECT * FROM Computers;";
 
             var reader = command.ExecuteReader();
@@ -62,10 +36,10 @@ if (modelName == "Computer")
             string ram = args[3];
             string processor = args[4];
 
-            connection = new SqliteConnection("Data Source=database.db");
+            var connection = new SqliteConnection("Data Source=database.db");
             connection.Open();
 
-            command = connection.CreateCommand();
+            var command = connection.CreateCommand();
             command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processor);";
             command.Parameters.AddWithValue("$id", id);
             command.Parameters.AddWithValue("$ram", ram);
@@ -78,10 +52,10 @@ if (modelName == "Computer")
     if(modelAction == "Delete")
     {
         int id = Convert.ToInt32(args[2]);
-        connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText ="DELETE FROM Computer WHERE id = $id";
         command.Parameters.AddWithValue("$id", id);
         command.ExecuteNonQuery();
@@ -94,10 +68,10 @@ if (modelName == "Lab")
 {
     if (modelAction == "List")
     {
-        connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText = "SELECT * FROM Lab;";
 
          var reader = command.ExecuteReader();
@@ -118,10 +92,10 @@ if (modelName == "Lab")
         string block = args[5];
 
         
-        connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText = "INSERT INTO Lab VALUES($id, $number, $name, $block);";
         command.Parameters.AddWithValue("$id", id);
         command.Parameters.AddWithValue("$number", number);
@@ -134,10 +108,10 @@ if (modelName == "Lab")
     if(modelAction == "Delete")
     {
         int id = Convert.ToInt32(args[2]);
-        connection = new SqliteConnection("Data Source=database.db");
+        var connection = new SqliteConnection("Data Source=database.db");
         connection.Open();
 
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText ="DELETE FROM Lab WHERE id = $id";
         command.Parameters.AddWithValue("$id", id);
         command.ExecuteNonQuery();
