@@ -11,7 +11,6 @@ class DatabaseSetup
     {
         _databaseConfig = DatabaseConfig;
         CreateComputerTable();
-        CreateLabTable();
     }
     private void CreateComputerTable()
     {
@@ -43,11 +42,6 @@ class DatabaseSetup
         ";
         command.ExecuteNonQuery();
         connection.Close();
-
-    }
-
-    private void CreateLabTable()
-    {
 
     }
 }
