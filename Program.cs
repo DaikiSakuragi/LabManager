@@ -24,6 +24,7 @@ if (modelName == "Computer")
             System.Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
         }
     }
+
     if (modelAction == "New")
     {
         int id = Convert.ToInt32(args[2]);
@@ -37,15 +38,7 @@ if (modelName == "Computer")
     if(modelAction == "Delete")
     {
         int id = Convert.ToInt32(args[2]);
-        var connection = new SqliteConnection("Data Source=database.db");
-        connection.Open();
-
-        var command = connection.CreateCommand();
-        command.CommandText ="DELETE FROM Computer WHERE id = $id";
-        command.Parameters.AddWithValue("$id", id);
-        command.ExecuteNonQuery();
-
-        connection.Close();
+        computerRepository.Delete(id);
     }
 }
 
