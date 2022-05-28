@@ -82,6 +82,7 @@ class ComputerRepository
         command.ExecuteNonQuery();
         connection.Close();
     }
+issue-#5
 
     public Computer GetById(int id)
     {
@@ -107,4 +108,6 @@ class ComputerRepository
         return computer;
     }
 
+
+main
 }

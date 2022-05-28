@@ -51,6 +51,7 @@ if (modelName == "Computer")
         var computer = new Computer(id, ram, processor);
         computerRepository.Update(computer);
     }
+issue-#5
 
     if(modelAction == "Show")
     {
@@ -59,6 +60,8 @@ if (modelName == "Computer")
         System.Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
 
     }
+
+main
 }
 
 if (modelName == "Lab")
