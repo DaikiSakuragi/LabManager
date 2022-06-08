@@ -21,7 +21,7 @@ class ComputerRepository
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "SELECT * FROM Computers;";
+        command.CommandText = "SELECT * FROM Computers;";    
 
         var reader = command.ExecuteReader();
 
@@ -31,11 +31,11 @@ class ComputerRepository
             var ram = reader.GetString(1);
             var processor = reader.GetString(2);
             var computer = new Computer(id, ram, processor);
+            /*var computer = ReaderToComputer();*/
             computers.Add(computer);
 
         }
 
-        reader.Close();
         connection.Close();
 
         return computers;
@@ -63,8 +63,8 @@ class ComputerRepository
         var command = connection.CreateCommand();
         command.CommandText ="DELETE FROM Computers WHERE id = $id";
         command.Parameters.AddWithValue("$id", id);
-        command.ExecuteNonQuery();
 
+        command.ExecuteNonQuery();
         connection.Close();
     }
 
@@ -82,7 +82,7 @@ class ComputerRepository
         command.ExecuteNonQuery();
         connection.Close();
 
-        return computer;
+        return computer; 
     }
 
     public Computer GetById(int id)
@@ -97,6 +97,7 @@ class ComputerRepository
         var reader = command.ExecuteReader();
 
         reader.Read();
+        /*var computer = ReaderToComputer();*/
         var ram = reader.GetString(1);
         var processor = reader.GetString(2);
 
@@ -105,4 +106,33 @@ class ComputerRepository
         connection.Close();
         return computer;
     }
+
+    public bool ExistsById(int id)
+    {
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "SELECT count(id) FROM Computers WHERE id = $id";
+        command.Parameters.AddWithValue("$id", id);
+
+        //var reader = command.ExecuteReader();
+        //reader.Read();
+//
+        //var result = reader.GetBoolean(0);
+
+        bool result = Convert.ToBoolean(command.ExecuteScalar());
+
+        connection.Close();
+
+        return result;
+
+    }
+
+    /*private Computer ReaderToComputer(SqliteDataReader reader)
+    {
+        var computer = new Computer(id.GetInt(32), ram.GetString(1), processor.GetString(2));
+
+        return computer;
+    }*/
 }

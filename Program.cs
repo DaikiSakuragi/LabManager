@@ -49,6 +49,7 @@ if (modelName == "Computer")
         string processor = args[4];
 
         var computer = new Computer(id, ram, processor);
+
         computerRepository.Update(computer);
     }
 
@@ -56,9 +57,19 @@ if (modelName == "Computer")
     {
         var id = Convert.ToInt32(args[2]);
 
-        var computer = computerRepository.GetById(id);
+        if(computerRepository.ExistsById(id))
+        {
+            var computer = computerRepository.GetById(id);
 
-        Console.WriteLine("{0}, {1}, {2}", computer.Id, computer.Ram, computer.Processor);
+            Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
+        }
+        else
+        {
+            System.Console.WriteLine($"O computador {id} não existe");
+        }
+
+
+
     }
 }
 
