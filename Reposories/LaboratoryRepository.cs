@@ -52,6 +52,24 @@ class LaboratoryRepository
         connection.Close();
     }
 
+    public Laboratory Update(Laboratory laboratory)
+    {
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "UPDATE Laboratorys SET number = $number, name = $name, block = $block WHERE id = $id";
+        command.Parameters.AddWithValue("$id", laboratory.Id);
+        command.Parameters.AddWithValue("$number", laboratory.Number);
+        command.Parameters.AddWithValue("$name", laboratory.Name);
+        command.Parameters.AddWithValue("$block", laboratory.Block);
+
+        command.ExecuteNonQuery();
+        connection.Close();
+
+        return laboratory;
+    }
+
     public Laboratory GetById(int id)
     {
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);

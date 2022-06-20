@@ -125,6 +125,15 @@ if(modelName == "Lab")
         }
     }
 
-   
-    
+    if (modelAction == "Update")
+    {
+        var id = Convert.ToInt32(args[2]);
+        var number = Convert.ToInt32(args[3]);
+        var name = args[4];
+        var block = args[5];
+
+        var laboratory = new Laboratory(id, number, name, block);
+
+        laboratoryRepository.Update(laboratory);
+    }
 }
