@@ -115,7 +115,6 @@ class ComputerRepository
         connection.Close();
 
         return result;
-
     }
 
     private Computer ReaderToComputer(SqliteDataReader reader)

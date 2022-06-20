@@ -109,4 +109,7 @@ if(modelName == "Lab")
         var laboratory = new Laboratory(id, number, name, block);
         laboratoryRepository.Save(laboratory);
     }
+
+   
+    
 }
