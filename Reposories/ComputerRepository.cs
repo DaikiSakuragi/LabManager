@@ -40,37 +40,31 @@ class ComputerRepository
     public Computer GetById(int id)
     
     {
-        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
         var computer = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new{ Id = id });
 
-        connection.Close();
         return computer;
     }
 
     public Computer Update(Computer computer)
     {
-        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
         connection.Execute("UPDATE Computers SET ram = @Ram, processor = @Processor WHERE id = @Id;", computer);
         
-        connection.Close();
         return computer; 
     }
 
     public void Delete(int id)
     {
-        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText ="DELETE FROM Computers WHERE id = $id";
-        command.Parameters.AddWithValue("$id", id);
-        command.ExecuteNonQuery();
-
-        connection.Close();
+        connection.Execute("DELETE FROM Computers WHERE id = @Id",new{ Id = id });
+        
     }
 
     public bool ExistsById(int id)
