@@ -26,22 +26,23 @@ class DatabaseSetup
         ";
         command.ExecuteNonQuery();
         connection.Close();
+    }
 
-
-
-        connection = new SqliteConnection("Data Source=database.db");
+     private void CreateLaboratoryTable()
+    {
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
-        command = connection.CreateCommand();
+        var command = connection.CreateCommand();
         command.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Lab(
+        CREATE TABLE IF NOT EXISTS Laboratorys(
         id int not null primary key,
-        number int not null,
-        name varchar(100) not null,
-        block varchar(50) not null
+        ram varchar(100) not null,
+        processor varchar(100) not null
         );
         ";
         command.ExecuteNonQuery();
         connection.Close();
-
     }
+
+
 }
