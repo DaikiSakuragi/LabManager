@@ -128,12 +128,35 @@ if(modelName == "Lab")
     if (modelAction == "Update")
     {
         var id = Convert.ToInt32(args[2]);
-        var number = Convert.ToInt32(args[3]);
-        var name = args[4];
-        var block = args[5];
 
-        var laboratory = new Laboratory(id, number, name, block);
+        if(laboratoryRepository.ExistsById(id))
+        {
+            var number = Convert.ToInt32(args[3]);
+            var name = args[4];
+            var block = args[5];
 
-        laboratoryRepository.Update(laboratory);
+            var laboratory = new Laboratory(id, number, name, block);
+
+            laboratoryRepository.Update(laboratory);
+        }
+        else
+        {
+            System.Console.WriteLine($"O laboratório de {id} não existe");
+        }
+
+    }
+
+    if (modelAction == "Delete")
+    {
+        var id = Convert.ToInt32(args[2]);
+        if(laboratoryRepository.ExistsById(id))
+        {
+            
+            laboratoryRepository.Delete(id);
+        }
+        else
+        {
+            System.Console.WriteLine($"O laboratório de {id} não existe");
+        }
     }
 }

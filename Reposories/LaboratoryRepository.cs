@@ -70,6 +70,19 @@ class LaboratoryRepository
         return laboratory;
     }
 
+    public void Delete(int id)
+    {
+        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        connection.Open();
+
+        var command = connection.CreateCommand();
+        command.CommandText = "DELETE FROM Laboratorys WHERE id = ($id)";
+        command.Parameters.AddWithValue("$id", id);
+
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+
     public Laboratory GetById(int id)
     {
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
