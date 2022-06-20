@@ -98,4 +98,15 @@ if(modelName == "Lab")
             System.Console.WriteLine($"{ laboratory.Id}, { laboratory.Number}, {laboratory.Name}, {laboratory.Block}");
         }
     }
+
+    if (modelAction == "New")
+    {
+        int id = Convert.ToInt32(args[2]);
+        int number = Convert.ToInt32(args[3]);
+        string name = args[4];
+        string block = args[5];
+
+        var laboratory = new Laboratory(id, number, name, block);
+        laboratoryRepository.Save(laboratory);
+    }
 }
