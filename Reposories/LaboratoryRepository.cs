@@ -30,16 +30,16 @@ class LaboratoryRepository
         {
             var laboratory = ReaderToLaboratory(reader);
             laboratorys.Add(laboratory);
-
         }
 
         connection.Close();
-
         return laboratorys;
     }
 
      private Laboratory ReaderToLaboratory(SqliteDataReader reader)
     {
-        return new Laboratory(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),  reader.GetString(3));
+        var laboratory = new Laboratory(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2),  reader.GetString(3));
+
+        return laboratory;
     }
 }

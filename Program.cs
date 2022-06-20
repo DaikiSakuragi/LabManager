@@ -3,11 +3,15 @@ using LabManager.Database;
 using LabManager.Repositories;
 using LabManager.Models;
 
+
+
 var databaseConfig = new DatabaseConfig();
 
 var databaseSetup = new DatabaseSetup(databaseConfig);
 
 var computerRepository = new ComputerRepository(databaseConfig);
+
+var laboratoryRepository = new LaboratoryRepository(databaseConfig);
 
 
 
@@ -21,7 +25,7 @@ if (modelName == "Computer")
     if (modelAction == "List") // roteamento
     {
         System.Console.WriteLine("Computer List");
-        foreach (var computer in computerRepository.GetAll())
+        foreach (var computer in computerRepository.GetAll()) 
         {
             System.Console.WriteLine($"{computer.Id}, {computer.Ram}, {computer.Processor}");
         }
@@ -80,5 +84,18 @@ if (modelName == "Computer")
         {
             Console.WriteLine($"O computador com Id {id} não existe.");
         }        
+    }
+}
+
+/*-----------------------------------------------------------//------------------------------------------------------------------*/
+
+if(modelName == "Lab")
+{
+    if(modelAction == "List")
+    {
+        foreach (var laboratory in laboratoryRepository.GetAll())
+        {
+            System.Console.WriteLine($"{ laboratory.Id}, { laboratory.Number}, {laboratory.Name}, {laboratory.Block}");
+        }
     }
 }
