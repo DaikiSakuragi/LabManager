@@ -159,4 +159,5 @@ if(modelName == "Lab")
             System.Console.WriteLine($"O laboratório de {id} não existe");
         }
     }
+
 }

@@ -1,8 +1,10 @@
 using LabManager.Database;
 using LabManager.Models;
 using Microsoft.Data.Sqlite;
+using Dapper;
 
 namespace LabManager.Repositories;
+
 
 class ComputerRepository
 {
@@ -16,42 +18,37 @@ class ComputerRepository
 
     public List<Computer> GetAll()
     {
-
         var computers = new List<Computer>();
+
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
         var command = connection.CreateCommand();
-        command.CommandText = "SELECT * FROM Computers;";    
+        command.CommandText = "SELECT * FROM Computers";
 
         var reader = command.ExecuteReader();
 
-        while (reader.Read())
+        while(reader.Read())
         {
             var computer = ReaderToComputer(reader);
             computers.Add(computer);
-
         }
 
         connection.Close();
-
         return computers;
-
     }
-    public void Save(Computer computer)
+
+    public Computer Save(Computer computer)
     {
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var command = connection.CreateCommand();
-        command.CommandText = "INSERT INTO Computers VALUES($id, $ram, $processor);";
-        command.Parameters.AddWithValue("$id", computer.Id);
-        command.Parameters.AddWithValue("$ram", computer.Ram);
-        command.Parameters.AddWithValue("$processor", computer.Processor);
-        
-        command.ExecuteNonQuery();
+        connection.Execute("INSERT INTO Computers VALUES(@Id, @Ram, @Processor)", computer);
+
         connection.Close();
+        return computer;
     }
+
 
     public Computer GetById(int id)
     {
