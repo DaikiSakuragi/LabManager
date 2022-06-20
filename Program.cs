@@ -110,6 +110,21 @@ if(modelName == "Lab")
         laboratoryRepository.Save(laboratory);
     }
 
+     if(modelAction == "Show")
+    {
+        var id = Convert.ToInt32(args[2]);
+
+        if(laboratoryRepository.ExistsById(id))
+        {
+            var laboratory = laboratoryRepository.GetById(id);
+            Console.WriteLine($"{ laboratory.Id}, { laboratory.Number}, {laboratory.Name}, {laboratory.Block}");
+        }
+        else
+        {
+            System.Console.WriteLine($"O laboratório de {id} não existe");
+        }
+    }
+
    
     
 }
