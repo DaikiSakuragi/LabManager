@@ -18,21 +18,21 @@ class ComputerRepository
 
     public IEnumerable<Computer> GetAll()
     {
-        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
-        var computers = connection.Query<Computer>("SELECT * FROM Computers");
-        connection.Close();
-        return computers;
+
+        var result = connection.Query<Computer>("SELECT * FROM Computers");
+        
+        return result;
     }
 
     public Computer Save(Computer computer)
     {
-        var connection = new SqliteConnection(_databaseConfig.ConnectionString);
+        using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
         connection.Execute("INSERT INTO Computers VALUES(@Id, @Ram, @Processor)", computer);
 
-        connection.Close();
         return computer;
     }
 
@@ -43,9 +43,9 @@ class ComputerRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var computer = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new{ Id = id });
+        var result = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new{ Id = id });
 
-        return computer;
+        return result;
     }
 
     public Computer Update(Computer computer)
@@ -71,15 +71,9 @@ class ComputerRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = Convert.ToBoolean(connection.ExecuteScalar("SELECT count(id) FROM Computers WHERE id = @Id", new{ Id = id }));
+        var result = connection.ExecuteScalar<Boolean>("SELECT count(id) FROM Computers WHERE id = @Id", new{ Id = id });
 
         return result;
     }
 
-    private Computer ReaderToComputer(SqliteDataReader reader)
-    {
-        var computer = new Computer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
-
-        return computer;
-    }
 }
