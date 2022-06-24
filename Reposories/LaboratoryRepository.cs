@@ -21,9 +21,9 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.Query<Laboratory>("SELECT * FROM Laboratorys");
+        var laboratories = connection.Query<Laboratory>("SELECT * FROM Laboratorys");
         
-        return result;
+        return laboratories;
     }
 
     public Laboratory Save(Laboratory laboratory)
@@ -31,7 +31,7 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        connection.Execute("INSERT INTO Laboratorys VALUES($id, $number, $name, $block);", laboratory);
+        connection.Execute("INSERT INTO Laboratorys VALUES(@Id, @Number, @Name, @Block);", laboratory);
 
         return laboratory;
     }
@@ -41,7 +41,7 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        connection.Execute("UPDATE Laboratorys SET number = $number, name = $name, block = $block WHERE id = $id", laboratory);
+        connection.Execute("UPDATE Laboratorys SET number = @Number, name = @Name, block = @Block WHERE id = @Id", laboratory);
 
         return laboratory;
     }
@@ -51,7 +51,7 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        connection.Execute("DELETE FROM Laboratorys WHERE id = ($id)", new { Id = id });
+        connection.Execute("DELETE FROM Laboratorys WHERE id = (@Id)", new { Id = id });
 
     }
 
@@ -61,9 +61,9 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.QuerySingle<Laboratory>("SELECT * FROM Laboratorys WHERE id = $id", new{ Id = id });
+        var laboratories = connection.QuerySingle<Laboratory>("SELECT * FROM Laboratorys WHERE id = @Id", new{ Id = id });
 
-        return result;
+        return laboratories;
     }
 
     public bool ExistsById(int id)
@@ -71,9 +71,9 @@ class LaboratoryRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.ExecuteScalar<Boolean>("SELECT count(id) FROM Laboratorys WHERE id = $id", new{ Id = id });
+        var laboratories = connection.ExecuteScalar<Boolean>("SELECT count(id) FROM Laboratorys WHERE id = @Id", new{ Id = id });
 
-        return result;
+        return laboratories;
     }
     
 }

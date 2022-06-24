@@ -21,9 +21,9 @@ class ComputerRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.Query<Computer>("SELECT * FROM Computers");
+        var computers = connection.Query<Computer>("SELECT * FROM Computers");
         
-        return result;
+        return computers;
     }
 
     public Computer Save(Computer computer)
@@ -43,9 +43,9 @@ class ComputerRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new{ Id = id });
+        var computers = connection.QuerySingle<Computer>("SELECT * FROM Computers WHERE id = @Id;", new{ Id = id });
 
-        return result;
+        return computers;
     }
 
     public Computer Update(Computer computer)
@@ -71,9 +71,9 @@ class ComputerRepository
         using var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
 
-        var result = connection.ExecuteScalar<Boolean>("SELECT count(id) FROM Computers WHERE id = @Id", new{ Id = id });
+        var computers = connection.ExecuteScalar<Boolean>("SELECT count(id) FROM Computers WHERE id = @Id", new{ Id = id });
 
-        return result;
+        return computers;
     }
 
 }

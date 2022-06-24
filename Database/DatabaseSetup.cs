@@ -31,13 +31,13 @@ class DatabaseSetup
         connection.Close();
     }
 
-     private void CreateLaboratoryTable()
+    private void CreateLaboratoryTable()
     {
         var connection = new SqliteConnection(_databaseConfig.ConnectionString);
         connection.Open();
         var command = connection.CreateCommand();
         command.CommandText = @"
-        CREATE TABLE IF NOT EXISTS Laboratorys(
+        CREATE TABLE IF NOT EXISTS Labs(
             id int not null primary key,
             number int not null,
             name varchar(100) not null,
@@ -47,6 +47,5 @@ class DatabaseSetup
         command.ExecuteNonQuery();
         connection.Close();
     }
-
 
 }
